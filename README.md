@@ -1,12 +1,37 @@
+# Improved-Diffusion-Extended
+
+Improved Diffusion Extended.
+
+# Introduction
+
+- Forked from: (openai/improved-diffusion)[https://github.com/openai/improved-diffusion].
+- Ported to Windows + Microsoft MPI + Python platform.
+- Added custom `train` and `sample` commands in `custom_commands`.
+
+# Usage
+
+- Change directory to that of this repository.
+- Download and install Microsoft MPI (here)[https://www.microsoft.com/en-us/download/details.aspx?id=105289].
+  - Download and install `msmpisdk.msi`.
+  - Download and install `msmpisetup.exe`.
+- Install the python package dependencies.
+- `pip install -r .\requirements.txt`
+- Follow the instructions in the "improved-diffusion - Usage" section.
+- Try out custom commands in the `custom_commands` directory.
+
+# Copyright
+
+Copyright (C) 2023 Yucheng Liu. GNU AGPL 3/3+ license.
+
 # improved-diffusion
 
 This is the codebase for [Improved Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2102.09672).
 
-# Usage
+# improved-diffusion - Usage
 
 This section of the README walks through how to train and sample from a model.
 
-## Installation
+## improved-diffusion - Installation
 
 Clone this repository and navigate to it in your terminal. Then run:
 
@@ -16,7 +41,7 @@ pip install -e .
 
 This should install the `improved_diffusion` python package that the scripts depend on.
 
-## Preparing Data
+## improved-diffusion - Preparing Data
 
 The training code reads images from a directory of image files. In the [datasets](datasets) folder, we have provided instructions/scripts for preparing these directories for ImageNet, LSUN bedrooms, and CIFAR-10.
 
@@ -24,7 +49,7 @@ For creating your own dataset, simply dump all of your images into a directory w
 
 The images will automatically be scaled and center-cropped by the data-loading pipeline. Simply pass `--data_dir path/to/images` to the training script, and it will take care of the rest.
 
-## Training
+## improved-diffusion - Training
 
 To train your model, you should first decide some hyperparameters. We will split up our hyperparameters into three groups: model architecture, diffusion process, and training flags. Here are some reasonable defaults for a baseline:
 
@@ -36,10 +61,10 @@ TRAIN_FLAGS="--lr 1e-4 --batch_size 128"
 
 Here are some changes we experiment with, and how to set them in the flags:
 
- * **Learned sigmas:** add `--learn_sigma True` to `MODEL_FLAGS`
- * **Cosine schedule:** change `--noise_schedule linear` to `--noise_schedule cosine`
- * **Importance-sampled VLB:** add `--use_kl True` to `DIFFUSION_FLAGS` and add `--schedule_sampler loss-second-moment` to  `TRAIN_FLAGS`.
- * **Class-conditional:** add `--class_cond True` to `MODEL_FLAGS`.
+* **Learned sigmas:** add `--learn_sigma True` to `MODEL_FLAGS`
+* **Cosine schedule:** change `--noise_schedule linear` to `--noise_schedule cosine`
+* **Importance-sampled VLB:** add `--use_kl True` to `DIFFUSION_FLAGS` and add `--schedule_sampler loss-second-moment` to  `TRAIN_FLAGS`.
+* **Class-conditional:** add `--class_cond True` to `MODEL_FLAGS`.
 
 Once you have setup your hyper-parameters, you can run an experiment like so:
 
@@ -57,7 +82,7 @@ When training in a distributed manner, you must manually divide the `--batch_siz
 
 The logs and saved models will be written to a logging directory determined by the `OPENAI_LOGDIR` environment variable. If it is not set, then a temporary directory will be created in `/tmp`.
 
-## Sampling
+## improved-diffusion - Sampling
 
 The above training script saves checkpoints to `.pt` files in the logging directory. These checkpoints will have names like `ema_0.9999_200000.pt` and `model200000.pt`. You will likely want to sample from the EMA models, since those produce much better samples.
 
